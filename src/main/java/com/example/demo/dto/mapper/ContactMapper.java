@@ -5,11 +5,22 @@ import java.util.List;
 
 import com.example.demo.dto.ContactRecord.ContactCreateRequest;
 import com.example.demo.dto.ContactRecord.ContactResponse;
+import com.example.demo.dto.ContactRecord.ContactUpdateRequest;
 import com.example.demo.entity.Contact;
 
 public class ContactMapper {
     public static Contact toEntity(ContactCreateRequest contactCreateRequest) {
         var contact = new Contact();
+        contact.setEmail(contactCreateRequest.email());
+        contact.setPhone(contactCreateRequest.phone());
+        contact.setPerson(PersonMapper.toEntityId(contactCreateRequest.personId()));
+
+        return contact;
+    }
+
+    public static Contact toEntityId(ContactUpdateRequest contactCreateRequest) {
+        var contact = new Contact();
+        contact.setId(contactCreateRequest.id());
         contact.setEmail(contactCreateRequest.email());
         contact.setPhone(contactCreateRequest.phone());
         contact.setPerson(PersonMapper.toEntityId(contactCreateRequest.personId()));
@@ -38,6 +49,15 @@ public class ContactMapper {
         var contactList = new ArrayList<Contact>();
         for (var contact : contacts) {
             contactList.add(toEntity(contact));
+        }
+
+        return contactList;
+    }
+
+    public static List<Contact> toListEntityUpdate(List<ContactUpdateRequest> contacts) {
+        var contactList = new ArrayList<Contact>();
+        for (var contact : contacts) {
+            contactList.add(toEntityId(contact));
         }
 
         return contactList;

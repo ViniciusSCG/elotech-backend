@@ -38,6 +38,6 @@ public class Person extends BaseEntity {
     @Column(nullable = false)
     private LocalDate birthdate;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Contact> contacts;
 }

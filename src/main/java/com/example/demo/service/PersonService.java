@@ -21,4 +21,8 @@ public interface PersonService {
 
     Page<PersonResponse> paginate(Pageable pageable, Predicate predicate);
 
+    PersonResponse findById(Integer id);
+
+    void delete(Integer id);
+
 }

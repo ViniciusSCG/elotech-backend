@@ -11,6 +11,7 @@ import com.example.demo.base.BaseServiceImpl;
 import com.example.demo.dto.PersonRecord.PersonCreateRequest;
 import com.example.demo.dto.PersonRecord.PersonResponse;
 import com.example.demo.dto.PersonRecord.PersonUpdateRequest;
+import com.example.demo.dto.mapper.ContactMapper;
 import com.example.demo.dto.mapper.PersonMapper;
 import com.example.demo.entity.Person;
 import com.example.demo.repository.PersonRepository;
@@ -55,7 +56,7 @@ public class PersonServiceImpl extends BaseServiceImpl implements PersonService 
         var personDB = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada!"));
         BeanUtils.copyProperties(personUpdateRequest, personDB, this.getNullPropertyNames(personUpdateRequest));
-
+        personDB.setContacts(ContactMapper.toListEntityUpdate(personUpdateRequest.contacts()));
         return PersonMapper.toDTO(repository.save(personDB));
 
     }
@@ -64,5 +65,19 @@ public class PersonServiceImpl extends BaseServiceImpl implements PersonService 
     public Page<PersonResponse> paginate(Pageable pageable, Predicate predicate) {
         var page = repository.findAll(predicate, pageable);
         return page.map((person) -> PersonMapper.toDTO(person));
+    }
+
+    @Override
+    public PersonResponse findById(Integer id) {
+        var person = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada!"));
+        return PersonMapper.toDTO(person);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        var person = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada!"));
+        repository.delete(person);
     }
 }
