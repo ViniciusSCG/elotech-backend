@@ -1,8 +1,11 @@
 package com.example.demo.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.Where;
@@ -38,6 +41,15 @@ public class Person extends BaseEntity {
     @Column(nullable = false)
     private LocalDate birthdate;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-    private List<Contact> contacts;
+    @OneToMany(mappedBy = "person")
+    private List<Contact> contacts = new ArrayList<>();
+
+    public void addContact(Contact c) {
+        c.setPerson(this);
+        contacts.add(c);
+    }
+
+    public void removeContact(Contact c) {
+        contacts.remove(c);
+    }
 }

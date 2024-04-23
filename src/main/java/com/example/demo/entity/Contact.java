@@ -1,8 +1,7 @@
 package com.example.demo.entity;
 
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.Where;
-import org.hibernate.annotations.DialectOverride.SQLDelete;
 
 import com.example.demo.base.BaseEntity;
 
@@ -23,7 +22,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "CONTACT")
-@org.hibernate.annotations.SQLDelete(sql = "UPDATE contact SET delete_date = NOW() WHERE id = ?")
+@SQLDelete(sql = "UPDATE contact SET delete_date = NOW() WHERE id = ?")
 @SQLRestriction("delete_date IS NULL")
 public class Contact extends BaseEntity {
 

@@ -11,7 +11,7 @@ public class PersonMapper {
         person.setCpf(personCreateRequest.cpf());
         person.setBirthdate(personCreateRequest.birthdate());
 
-        person.setContacts(ContactMapper.toListEntity(personCreateRequest.contacts()));
+ 
 
         return person;
     }
