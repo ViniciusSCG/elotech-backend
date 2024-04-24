@@ -9,7 +9,9 @@ import com.example.demo.dto.ContactRecord.ContactCreateRequest;
 import com.example.demo.dto.ContactRecord.ContactResponse;
 import com.example.demo.dto.ContactRecord.ContactUpdateRequest;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 public class PersonRecord {
@@ -17,8 +19,8 @@ public class PersonRecord {
         public record PersonCreateRequest(
                         @NotEmpty String name,
                         @CPF @NotEmpty String cpf,
-                        @NotEmpty LocalDate birthdate,
-                        List<ContactCreateRequest> contacts) {
+                        @NotNull LocalDate birthdate,
+                        @Valid List<ContactCreateRequest> contacts) {
         }
 
         @Builder

@@ -1,12 +1,13 @@
 package com.example.demo.dto;
 
+import jakarta.validation.constraints.Email;
 import lombok.Builder;
 
 public class ContactRecord {
 
         @Builder
         public record ContactCreateRequest(
-                        String email,
+                        @Email String email,
                         String phone,
                         Integer personId) {
 

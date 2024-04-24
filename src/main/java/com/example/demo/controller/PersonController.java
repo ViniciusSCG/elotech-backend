@@ -21,6 +21,7 @@ import com.example.demo.entity.Person;
 import com.example.demo.service.PersonService;
 import com.querydsl.core.types.Predicate;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -32,7 +33,7 @@ public class PersonController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("/create")
-    public PersonResponse create(@RequestBody PersonCreateRequest personCreateRequest) {
+    public PersonResponse create(@Valid @RequestBody PersonCreateRequest personCreateRequest) {
         return personService.create(personCreateRequest);
     }
 

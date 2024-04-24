@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -47,6 +48,10 @@ public class PersonServiceImpl extends BaseServiceImpl implements PersonService 
         if (personCreateRequest.contacts() == null || personCreateRequest.contacts().isEmpty()) {
             throw new IllegalArgumentException("Contato não pode ser vazio!");
         }
+
+        if (personCreateRequest.birthdate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Data de nascimento não pode ser maior que a data atual!");
+        }
         var personDB = PersonMapper.toEntity(personCreateRequest);
 
         repository.save(personDB);
@@ -70,7 +75,6 @@ public class PersonServiceImpl extends BaseServiceImpl implements PersonService 
         var personDB = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada!"));
         BeanUtils.copyProperties(personUpdateRequest, personDB, this.getNullPropertyNames(personUpdateRequest));
-        // personDB.getContacts().forEach(c -> personDB.removeContact(c));
 
         if (personUpdateRequest.contacts().size() == 0) {
             throw new IllegalArgumentException("Contato não pode ser vazio!");
